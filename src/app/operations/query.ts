@@ -14,8 +14,8 @@ export const getUsers = gql`
 `;
 
 export const login = gql`
-  query {
-    login(email: "ruslanguns@gmail.com", password: "123456") {
+  query login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
       status
       message
       token
@@ -29,10 +29,10 @@ export const meData = gql`
       status
       message
       user {
-        id
         name
         lastname
         email
+        registerDate
       }
     }
   }

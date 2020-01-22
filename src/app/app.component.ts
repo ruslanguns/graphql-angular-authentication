@@ -18,11 +18,11 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.apiService.getUsers().subscribe(console.log);
+    // this.apiService.getUsers().subscribe();
 
-    this.apiService.login('ruslanguns@gmail.com', '123456').subscribe(console.log);
+    // this.apiService.login('ruslanguns@gmail.com', '123456').subscribe();
 
-    this.apiService.me(this.token).subscribe(console.log);
+    // this.apiService.me(this.token).subscribe();
 
   }
 }

@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-lg-4"></div>
+  <div class="col-lg-4">
+
+    <div *ngIf="error" class="alert alert-warning" role="alert">
+      Credenciales incorrectas!
+    </div>
+
+    <h1>Inicio de sesión</h1>
+
+    <form #form="ngForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input name="email"
+               #email="ngModel"
+               [(ngModel)]="user.email"
+               type="email"
+               class="form-control"
+               id="email"
+               [ngClass]="{'is-valid': email.valid && (!email.pristine || !email.untouched), 'is-invalid': email.invalid && (!email.pristine || !email.untouched) }"
+               required>
+      </div>
+      <div class="alert alert-danger"
+           *ngIf="(email.invalid && (email.dirty || email.touched)) && (!email.pristine || !email.untouched)"
+           role="alert"
+           [ngClass]="{'is-valid': email.valid && (!email.pristine || !email.untouched), 'is-invalid': email.invalid && (!email.pristine || !email.untouched) }"
+           pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])+"
+           required>
+        <div *ngIf="email.errors.required">
+          Email is required
+        </div>
+        <div *ngIf="email.errors.pattern">
+          Email not invalid
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input name="password" #password="ngModel" [(ngModel)]="user.password" type="password" class="form-control"
+               id="password"
+               [ngClass]="{'is-valid': password.valid && (!password.pristine || !password.untouched), 'is-invalid': password.invalid && (!password.pristine || !password.untouched) }"
+               required>
+      </div>
+      <div class="alert alert-danger"
+           *ngIf="(password.invalid && (password.dirty || password.touched)) && (!password.pristine || !password.untouched)"
+           role="alert">
+        <div *ngIf="password.errors.required">
+          Password is required
+        </div>
+      </div>
+      <button [disabled]="!form.valid" type="submit" class="btn btn-primary btn-block">Submit</button>
+    </form>
+  </div>
+  <div class="col-lg-4"></div>
+</div>

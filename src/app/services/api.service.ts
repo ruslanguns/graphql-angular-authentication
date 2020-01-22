@@ -3,13 +3,17 @@ import { Apollo } from 'apollo-angular';
 import { getUsers, login, meData } from '../operations/query';
 import { map } from 'rxjs/operators';
 import { HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  constructor(private apollo: Apollo) { }
+  constructor(
+    private apollo: Apollo,
+    private router: Router
+  ) { }
 
   getUsers() {
     return this.apollo
@@ -43,7 +47,14 @@ export class ApiService {
       );
   }
 
-  me(token: string) {
+  logout(): void {
+    this.removeToken();
+    this.router.navigate(['/login']);
+    console.log('Se ha cerrado sesión');
+    return;
+  }
+
+  me() {
     return this.apollo
       .watchQuery(
         {
@@ -51,7 +62,7 @@ export class ApiService {
           fetchPolicy: 'network-only',
           context: {
             headers: new HttpHeaders({
-              authorization: token,
+              authorization: this.getToken(),
             })
           }
         }
@@ -60,5 +71,17 @@ export class ApiService {
           return result.data.me;
         }),
       );
+  }
+
+  getToken(): string {
+    return localStorage.getItem('accessToken');
+  }
+
+  setToken(token: string): void {
+    return localStorage.setItem('accessToken', token);
+  }
+
+  removeToken(): void {
+    return localStorage.removeItem('accessToken');
   }
 }

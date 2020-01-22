@@ -1,0 +1,14 @@
+<div class="row" *ngIf="me">
+  <div class="col-lg-4"></div>
+  <div class="col-lg-4">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{ me.name }} {{ me.lastname }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Register Date: {{ me.registerDate | date: 'short' }}</h6>
+        <p class="card-text">Email: {{ me.email }}</p>
+        <button type="button" (click)="logout()" class="btn btn-warning btn-block">Cerrar sesión</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4"></div>
+</div>

@@ -3,6 +3,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ApolloModule, Apollo } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { onError } from 'apollo-link-error';
+import { ApolloLink } from 'apollo-link';
 
 @NgModule({
   exports: [
@@ -13,8 +15,18 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 })
 export class GraphqlModule {
   constructor(apollo: Apollo, httpLink: HttpLink) {
+    const errorLink = onError(({ graphQLErrors, networkError }) => {
+      if (graphQLErrors) {
+        console.log('graphQLErrors', graphQLErrors);
+      }
+      if (networkError) {
+        console.log('networkError', networkError);
+      }
+    });
+    const PRODUCTION = 'http://localhost:5002/graphql';
+    const link = ApolloLink.from([errorLink, httpLink.create({ uri: PRODUCTION })]);
     apollo.create({
-      link: httpLink.create({ uri: 'http://localhost:5002/graphql' }),
+      link,
       cache: new InMemoryCache(),
     });
   }
